@@ -8,16 +8,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-@WebServlet("/demo")
-public class DemoController extends HttpServlet{
-
-	private static final long serialVersionUID = 6636704709001815662L;
+@WebServlet("/validate")
+public class LoginValidator extends HttpServlet{
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		PrintWriter writer=resp.getWriter();
-		writer.println("In demo controller");
-		writer.println(req.getParameter("password"));
+		resp.setContentType("text/plain");
+		HttpSession session=req.getSession();
+		String username=req.getParameter("username");
+		String password=req.getParameter("password");
+		session.setAttribute("username", username);
+		session.setAttribute("password", password);
+		writer.println("<h2> Hello"+ username+ "</h2>");
+		resp.sendRedirect("welcome");
+		
 	}
 }
